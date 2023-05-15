@@ -1,0 +1,41 @@
+Runnng a simple docker image
+
+docker run ubuntu /bin/echo 'Hello Docker'
+
+Show all docker images
+
+docker images
+docker image ls
+
+Interactive shell inside a Docker container:
+
+docker run -i -t --rm ubuntu /bin/bash
+Options : 
+-t flag assigns a pseudo-tty or terminal inside the new container.
+-i flag allows you to make an interactive connection by grabbing the standard input (STDIN) of the container.
+--rm flag automatically removes the container when the process exits. By default, containers are not deleted. 
+This container exists until we keep the shell session and terminates when we exit the session 
+(like an SSH session with a remote server).
+
+Show all running containers
+docker ps
+docker ps -a (including stopped and exited with errors.)
+docker ps -aq (q option is for only container id is returned and it is useful for removing all container)
+
+Removing all container with the help of linux sub shell "$(docker ps -aq)"
+docker rm $(docker ps -aq)
+
+Running docker with Daemon mode
+docker run --name daemon_test -d ubuntu /bin/sh -c "while true;do echo Hello docker; sleep 3; done"
+--name option is to name a container.
+-d flag is to enable the daemon mode. If you don't specify a name explicitly, Docker will generate and assign it automatically.
+
+Docker Logs
+docker logs -f daemon_test
+-f flag is like tail logs in linux
+Note : logs can be see using container ID or Container Name(daemon_test).
+
+Stopping and Starting Docker Container
+docker stop daemon_test (works with container id as well)
+docker start daemon_test (works with container id as well)
+Note: docker start can only be used when the container is stopped. Once it is removed it cannot be start again and need to rerun the container.
